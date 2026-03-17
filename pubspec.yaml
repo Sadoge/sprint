@@ -1,6 +1,6 @@
 name: sprint
 description: "A minimalist Flutter focus timer with local sprint tracking, streaks, history, and adjustable session duration."
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
