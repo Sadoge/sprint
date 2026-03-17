@@ -23,13 +23,14 @@ class HistoryViewModel extends _$HistoryViewModel {
   @override
   Future<HistoryState> build() async {
     final sprintRepo = ref.watch(sprintRepositoryProvider);
+    final now = ref.watch(nowProvider);
 
     final heatmap = await sprintRepo.getLast30Days();
-    final streak = calculateStreak(heatmap);
     final totalSprints = await sprintRepo.getTotalSprints();
     final activeDays = await sprintRepo.getActiveDays();
 
-    final today = DateTime.now();
+    final today = now();
+    final streak = calculateStreak(heatmap, now: today);
     final todayKey = DateTime(today.year, today.month, today.day);
     final todayCount = heatmap[todayKey] ?? 0;
 

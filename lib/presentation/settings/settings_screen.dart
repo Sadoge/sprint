@@ -35,7 +35,9 @@ class SettingsScreen extends ConsumerWidget {
               DurationPillSelector(
                 selected: settings.sprintDuration,
                 onChanged: (minutes) {
-                  ref.read(settingsViewModelProvider.notifier).setDuration(minutes);
+                  ref
+                      .read(settingsViewModelProvider.notifier)
+                      .setDuration(minutes);
                 },
               ),
               const SizedBox(height: 32),
@@ -96,10 +98,7 @@ class SettingsScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surface,
-        title: Text(
-          'Reset all data?',
-          style: AppTypography.settingTitle,
-        ),
+        title: Text('Reset all data?', style: AppTypography.settingTitle),
         content: Text(
           'This will permanently clear your streak and sprint history.',
           style: AppTypography.mono,
@@ -117,10 +116,7 @@ class SettingsScreen extends ConsumerWidget {
               ref.read(settingsViewModelProvider.notifier).resetAllData();
               Navigator.pop(context);
             },
-            child: Text(
-              'Reset',
-              style: AppTypography.resetButton,
-            ),
+            child: Text('Reset', style: AppTypography.resetButton),
           ),
         ],
       ),

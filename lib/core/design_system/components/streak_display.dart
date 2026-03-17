@@ -25,10 +25,7 @@ class StreakDisplay extends StatelessWidget {
             Text('day streak', style: AppTypography.mono),
             if (streak >= 3) ...[
               const SizedBox(width: 6),
-              Text(
-                '🔥',
-                style: AppTypography.mono.copyWith(fontSize: 14),
-              ),
+              Text('🔥', style: AppTypography.mono.copyWith(fontSize: 14)),
             ],
           ],
         ),

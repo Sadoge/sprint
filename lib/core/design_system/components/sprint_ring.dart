@@ -22,10 +22,7 @@ class SprintRing extends StatelessWidget {
       width: size,
       height: size,
       child: CustomPaint(
-        painter: _RingPainter(
-          progress: progress,
-          color: color,
-        ),
+        painter: _RingPainter(progress: progress, color: color),
         child: Center(child: child),
       ),
     );
@@ -36,10 +33,7 @@ class _RingPainter extends CustomPainter {
   final double progress;
   final Color color;
 
-  _RingPainter({
-    required this.progress,
-    required this.color,
-  });
+  _RingPainter({required this.progress, required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {

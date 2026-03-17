@@ -16,6 +16,33 @@ import '../history/history_viewmodel.dart';
 
 part 'timer_viewmodel.g.dart';
 
+abstract class CompletionSoundPlayer {
+  Future<void> play();
+  Future<void> dispose();
+}
+
+class AudioPlayerCompletionSoundPlayer implements CompletionSoundPlayer {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  @override
+  Future<void> play() {
+    return _audioPlayer.play(AssetSource('sounds/complete.mp3'));
+  }
+
+  @override
+  Future<void> dispose() {
+    return _audioPlayer.dispose();
+  }
+}
+
+final nowProvider = Provider<DateTime Function()>((ref) => DateTime.now);
+
+final completionSoundPlayerProvider = Provider<CompletionSoundPlayer>((ref) {
+  final player = AudioPlayerCompletionSoundPlayer();
+  ref.onDispose(() => player.dispose());
+  return player;
+});
+
 @riverpod
 AppDatabase database(Ref ref) {
   final db = AppDatabase();
@@ -38,23 +65,21 @@ SettingsRepository settingsRepository(Ref ref) {
 @riverpod
 class TimerViewModel extends _$TimerViewModel {
   Timer? _timer;
-  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   Future<TimerState> build() async {
     ref.onDispose(() {
       _timer?.cancel();
-      _audioPlayer.dispose();
     });
 
     final settingsRepo = ref.watch(settingsRepositoryProvider);
     final sprintRepo = ref.watch(sprintRepositoryProvider);
+    final now = ref.watch(nowProvider);
 
     final settings = await settingsRepo.getSettings();
     final heatmap = await sprintRepo.getLast30Days();
-    final streak = calculateStreak(heatmap);
-
-    final today = DateTime.now();
+    final today = now();
+    final streak = calculateStreak(heatmap, now: today);
     final todayKey = DateTime(today.year, today.month, today.day);
     final todayCount = heatmap[todayKey] ?? 0;
 
@@ -118,14 +143,16 @@ class TimerViewModel extends _$TimerViewModel {
 
     final sprintRepo = ref.read(sprintRepositoryProvider);
     final settingsRepo = ref.read(settingsRepositoryProvider);
+    final soundPlayer = ref.read(completionSoundPlayerProvider);
+    final now = ref.read(nowProvider);
     final settings = await settingsRepo.getSettings();
 
     await sprintRepo.recordSprint(current.totalDuration.inMinutes);
 
     // Recalculate
     final heatmap = await sprintRepo.getLast30Days();
-    final streak = calculateStreak(heatmap);
-    final today = DateTime.now();
+    final today = now();
+    final streak = calculateStreak(heatmap, now: today);
     final todayKey = DateTime(today.year, today.month, today.day);
     final todayCount = heatmap[todayKey] ?? 0;
 
@@ -141,7 +168,7 @@ class TimerViewModel extends _$TimerViewModel {
     // Play sound
     if (settings.soundEnabled) {
       try {
-        await _audioPlayer.play(AssetSource('sounds/complete.mp3'));
+        await soundPlayer.play();
       } catch (_) {}
     }
 

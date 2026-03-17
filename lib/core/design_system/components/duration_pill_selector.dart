@@ -21,16 +21,16 @@ class DurationPillSelector extends StatelessWidget {
         final isActive = minutes == selected;
         return Expanded(
           child: Padding(
-            padding: EdgeInsets.only(
-              right: minutes == _options.last ? 0 : 10,
-            ),
+            padding: EdgeInsets.only(right: minutes == _options.last ? 0 : 10),
             child: GestureDetector(
               onTap: () => onChanged(minutes),
               child: AnimatedContainer(
                 duration: AppDurations.fast,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: isActive ? AppColors.accentSubtle : AppColors.surfaceHigh,
+                  color: isActive
+                      ? AppColors.accentSubtle
+                      : AppColors.surfaceHigh,
                   borderRadius: BorderRadius.circular(22),
                   border: isActive
                       ? Border.all(color: AppColors.accent, width: 1.5)

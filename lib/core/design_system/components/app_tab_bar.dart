@@ -7,11 +7,7 @@ class AppTabBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const AppTabBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
+  const AppTabBar({super.key, required this.currentIndex, required this.onTap});
 
   static const _tabs = [
     (icon: LucideIcons.timer, label: 'TIMER'),
@@ -44,7 +40,9 @@ class AppTabBar extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: AppDurations.fast,
                     decoration: BoxDecoration(
-                      color: isActive ? AppColors.accentSubtle : Colors.transparent,
+                      color: isActive
+                          ? AppColors.accentSubtle
+                          : Colors.transparent,
                       borderRadius: BorderRadius.circular(26),
                     ),
                     child: Column(

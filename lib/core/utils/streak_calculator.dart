@@ -1,6 +1,6 @@
-int calculateStreak(Map<DateTime, int> history) {
+int calculateStreak(Map<DateTime, int> history, {DateTime? now}) {
   int streak = 0;
-  DateTime day = DateTime.now();
+  DateTime day = now ?? DateTime.now();
 
   while (true) {
     final key = DateTime(day.year, day.month, day.day);

@@ -4,14 +4,16 @@ import '../database/sprint_dao.dart';
 
 class SprintRepositoryImpl implements SprintRepository {
   final SprintDao _dao;
+  final DateTime Function() _now;
 
-  SprintRepositoryImpl(this._dao);
+  SprintRepositoryImpl(this._dao, {DateTime Function()? now})
+    : _now = now ?? DateTime.now;
 
   @override
   Future<void> recordSprint(int durationMinutes) {
     return _dao.insertSprint(
       SprintsCompanion.insert(
-        completedAt: DateTime.now(),
+        completedAt: _now(),
         durationMinutes: durationMinutes,
       ),
     );
@@ -19,7 +21,7 @@ class SprintRepositoryImpl implements SprintRepository {
 
   @override
   Future<Map<DateTime, int>> getLast30Days() async {
-    final counts = await _dao.getSprintCountsByDay();
+    final counts = await _dao.getSprintCountsByDay(now: _now());
     final result = <DateTime, int>{};
     for (final entry in counts.entries) {
       final parts = entry.key.split('-');

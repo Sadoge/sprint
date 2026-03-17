@@ -11,9 +11,9 @@ class SprintDao extends DatabaseAccessor<AppDatabase> with _$SprintDaoMixin {
     return into(sprints).insert(sprint);
   }
 
-  Future<Map<String, int>> getSprintCountsByDay() async {
-    final now = DateTime.now();
-    final thirtyDaysAgo = now.subtract(const Duration(days: 30));
+  Future<Map<String, int>> getSprintCountsByDay({DateTime? now}) async {
+    final referenceTime = now ?? DateTime.now();
+    final thirtyDaysAgo = referenceTime.subtract(const Duration(days: 30));
 
     final query = select(sprints)
       ..where((s) => s.completedAt.isBiggerOrEqualValue(thirtyDaysAgo));
@@ -22,7 +22,8 @@ class SprintDao extends DatabaseAccessor<AppDatabase> with _$SprintDaoMixin {
     final counts = <String, int>{};
     for (final row in results) {
       final date = row.completedAt;
-      final key = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+      final key =
+          '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
       counts[key] = (counts[key] ?? 0) + 1;
     }
     return counts;

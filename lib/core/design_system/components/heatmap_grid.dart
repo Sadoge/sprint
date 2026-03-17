@@ -72,17 +72,13 @@ class HeatmapGrid extends StatelessWidget {
       }
       rows.add(
         Row(
-          children: cells
-              .expand((w) => [w, const SizedBox(width: 6)])
-              .toList()
+          children: cells.expand((w) => [w, const SizedBox(width: 6)]).toList()
             ..removeLast(),
         ),
       );
     }
     return Column(
-      children: rows
-          .expand((w) => [w, const SizedBox(height: 6)])
-          .toList()
+      children: rows.expand((w) => [w, const SizedBox(height: 6)]).toList()
         ..removeLast(),
     );
   }

@@ -76,7 +76,9 @@ class TimerScreen extends ConsumerWidget {
                           boxShadow: timer.status == TimerStatus.running
                               ? [
                                   BoxShadow(
-                                    color: AppColors.accent.withValues(alpha: 0.12),
+                                    color: AppColors.accent.withValues(
+                                      alpha: 0.12,
+                                    ),
                                     blurRadius: 80,
                                     spreadRadius: 20,
                                   ),
@@ -180,11 +182,7 @@ class _CompletedCheckmarkState extends State<_CompletedCheckmark>
   Widget build(BuildContext context) {
     return ScaleTransition(
       scale: _scale,
-      child: const Icon(
-        LucideIcons.check,
-        size: 48,
-        color: AppColors.accent,
-      ),
+      child: const Icon(LucideIcons.check, size: 48, color: AppColors.accent),
     );
   }
 }

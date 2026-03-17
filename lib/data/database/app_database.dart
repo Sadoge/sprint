@@ -28,6 +28,7 @@ class Settings extends Table {
 @DriftDatabase(tables: [Sprints, Settings], daos: [SprintDao, SettingsDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
+  AppDatabase.forTesting(super.executor);
 
   @override
   int get schemaVersion => 1;

@@ -31,18 +31,9 @@ class HistoryScreen extends ConsumerWidget {
               HeatmapGrid(data: history.heatmapData),
               const SizedBox(height: 28),
 
-              StatRow(
-                label: 'Current streak',
-                value: '${history.streak} days',
-              ),
-              StatRow(
-                label: 'Sprints today',
-                value: '${history.todayCount}',
-              ),
-              StatRow(
-                label: 'Total sprints',
-                value: '${history.totalSprints}',
-              ),
+              StatRow(label: 'Current streak', value: '${history.streak} days'),
+              StatRow(label: 'Sprints today', value: '${history.todayCount}'),
+              StatRow(label: 'Total sprints', value: '${history.totalSprints}'),
               StatRow(
                 label: 'Active days',
                 value: '${history.activeDays}',
